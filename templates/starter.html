@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{PROJECT_NAME}}</title>
+    <meta name="description" content="{{META_DESCRIPTION}}">
+    <meta property="og:title" content="{{PROJECT_NAME}}">
+    <meta property="og:description" content="{{META_DESCRIPTION}}">
+    <meta property="og:type" content="website">
+    <!-- DESIGNER: inject styles here -->
+    <style>
+        /* === RESET === */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--primary); color: var(--text); overflow-x: hidden; }
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        /* === THEME === */
+        :root {
+            --primary: #0D1F0D;
+            --primary-2: #132613;
+            --primary-3: #1A2E1A;
+            --accent: #A67C52;
+            --gold: #8B7355;
+            --gold-dark: #6B5740;
+            --text: #E5E0D5;
+            --text-muted: #A8B8A0;
+            --cream: #E8E4D9;
+            --glass: rgba(255,255,255,0.04);
+            --glass-border: rgba(255,255,255,0.08);
+            --accent-cool: #4A6741;
+        }
+
+        /* === DESIGNER: Add component styles below === */
+
+    </style>
+</head>
+<body>
+
+    <!-- === NAVIGATION === -->
+    <nav class="nav">
+        <div class="container">
+            <a href="#" class="nav-logo">{{BRAND}}</a>
+            <div class="nav-links">
+                <!-- Content agent fills these -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- === HERO === -->
+    <section class="hero" id="hero">
+        <div class="hero-bg" id="hero-3d"></div>
+        <div class="container hero-content">
+            <h1>{{HEADLINE}}</h1>
+            <p class="hero-sub">{{SUBHEADLINE}}</p>
+            <div class="hero-cta">
+                <a href="#work" class="btn btn-primary">See My Work</a>
+                <a href="#contact" class="btn btn-outline">Get In Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- === ABOUT === -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2>{{ABOUT_HEADING}}</h2>
+            <p>{{ABOUT_COPY}}</p>
+        </div>
+    </section>
+
+    <!-- === SERVICES === -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2>{{SERVICES_HEADING}}</h2>
+            <div class="services-grid">
+                <!-- Architect builds cards, Content fills them -->
+            </div>
+        </div>
+    </section>
+
+    <!-- === PORTFOLIO === -->
+    <section class="portfolio" id="work">
+        <div class="container">
+            <h2>{{PORTFOLIO_HEADING}}</h2>
+            <div class="portfolio-grid">
+                <!-- Architect builds cards, Content fills them -->
+            </div>
+        </div>
+    </section>
+
+    <!-- === CTA === -->
+    <section class="cta" id="cta">
+        <div class="container">
+            <h2>{{CTA_HEADING}}</h2>
+            <p>{{CTA_COPY}}</p>
+            <a href="#contact" class="btn btn-primary">{{CTA_BUTTON}}</a>
+        </div>
+    </section>
+
+    <!-- === CONTACT === -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>{{CONTACT_HEADING}}</h2>
+            <!-- Contact form or info -->
+        </div>
+    </section>
+
+    <!-- === FOOTER === -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 {{BRAND}}. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ANIMATOR: inject scripts here -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // === ANIMATOR: Add animation scripts below ===
+    </script>
+
+</body>
+</html>

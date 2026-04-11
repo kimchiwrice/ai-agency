@@ -1,0 +1,67 @@
+name: AI Agency — Build Site
+
+on:
+  push:
+    paths:
+      - 'briefs/*.md'
+      - '!briefs/_template.md'
+      - '!briefs/completed/**'
+  workflow_dispatch:
+    inputs:
+      brief:
+        description: 'Brief filename (e.g. new-client.md)'
+        required: true
+        type: string
+
+jobs:
+  detect-brief:
+    runs-on: ubuntu-latest
+    outputs:
+      brief_file: ${{ steps.find.outputs.brief }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find new or updated brief
+        id: find
+        run: |
+          if [ -n "${{ github.event.inputs.brief }}" ]; then
+            echo "brief=${{ github.event.inputs.brief }}" >> $GITHUB_OUTPUT
+          else
+            BRIEF=$(git diff --name-only HEAD~1 HEAD -- 'briefs/*.md' | grep -v '_template.md' | head -1)
+            echo "brief=$BRIEF" >> $GITHUB_OUTPUT
+          fi
+
+  build:
+    needs: detect-brief
+    if: needs.detect-brief.outputs.brief_file != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Read Brief
+        id: brief
+        run: |
+          echo "Brief file: ${{ needs.detect-brief.outputs.brief_file }}"
+          cat "${{ needs.detect-brief.outputs.brief_file }}"
+
+      - name: Build with Claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Read the brief at ${{ needs.detect-brief.outputs.brief_file }}.
+            Read CLAUDE.md for master instructions and agent configs in agents/.
+            Follow the multi-agent workflow to build the website.
+            Output the final index.html to output/ directory.
+
+      - name: Commit Output
+        run: |
+          git config user.name "AI Agency Bot"
+          git config user.email "ai-agency@trinh.media"
+          git add output/
+          git diff --staged --quiet || git commit -m "Build: $(basename ${{ needs.detect-brief.outputs.brief_file }} .md)"
+          git push
