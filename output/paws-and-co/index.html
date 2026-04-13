@@ -68,9 +68,9 @@
         /* === HERO — running dog energy === */
         .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
         .hero-canvas { position: absolute; inset: 0; z-index: 0; }
-        .hero-img {
+        .hero-video {
             position: absolute; inset: 0; z-index: 1;
-            background: url('https://images.unsplash.com/photo-1558788353-f76d92427f16?w=1800&q=85') center 30%/cover no-repeat;
+            width: 100%; height: 100%; object-fit: cover;
         }
         .hero-overlay {
             position: absolute; inset: 0; z-index: 2;
@@ -268,7 +268,9 @@
     <!-- HERO — running dog -->
     <section class="hero" id="hero">
         <div class="hero-canvas" id="hero3d"></div>
-        <div class="hero-img"></div>
+        <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1558788353-f76d92427f16?w=1800&q=85">
+            <source src="https://videos.pexels.com/video-files/35199742/14912587_1920_1080_50fps.mp4" type="video/mp4">
+        </video>
         <div class="hero-overlay"></div>
         <div class="hero-content container">
             <div class="hero-badge">Now Open in Sacramento</div>
@@ -368,7 +370,7 @@
                     <div class="gallery-caption"><p>Mochi says hello</p></div>
                 </div>
                 <div class="gallery-item reveal reveal-d3 depth-container">
-                    <img class="depth-layer" src="https://images.unsplash.com/photo-1477884213360-7e9d7dcc8f9b?w=500&q=80" alt="Dog playing fetch outdoors" loading="lazy">
+                    <img class="depth-layer" src="https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?w=500&q=80" alt="Dog playing fetch outdoors" loading="lazy">
                     <div class="gallery-caption"><p>Weekend at the park</p></div>
                 </div>
             </div>
@@ -379,7 +381,7 @@
         <div class="container">
             <div class="about-grid">
                 <div class="about-img reveal reveal-d1 depth-container">
-                    <img class="depth-layer" src="https://images.unsplash.com/photo-1450778869180-cfe0f6b5ad40?w=800&q=80" alt="Person walking with dog in golden light" loading="lazy">
+                    <img class="depth-layer" src="https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=800&q=80" alt="Person walking with dog in golden light" loading="lazy">
                     <div class="about-img-badge">
                         <strong>8+</strong>
                         <span>Years Serving Sac</span>
