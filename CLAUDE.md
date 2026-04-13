@@ -163,3 +163,33 @@ ai-agency/
 - Always test images before committing (Unsplash IDs go stale)
 - Clean up any Node.js helper scripts after use (deploy scripts, git scripts, etc.)
 - After every project: update the Project Registry table above
+
+## Quality System (READ BEFORE EVERY BUILD)
+
+### Reference Document
+Read `QUALITY-STANDARDS.md` before every build. It contains:
+- Awwwards-inspired 4-dimension scoring rubric (Design/Usability/Creativity/Content)
+- Pre-deploy checklist (every item must pass before shipping)
+- $5K / $10K / $15K+ feature ladder (know which tier you're building for)
+- Competitive benchmarks (agencies to study and beat)
+
+### Minimum Bar
+- Weighted score must be 7.0+ to ship
+- Target: 7.5+ (consistent $10K-$15K quality)
+- Stretch: 8.5+ (Awwwards-submittable)
+
+### Self-Improvement Loop (THIS IS HOW THE SYSTEM GETS SMARTER)
+After EVERY build:
+1. Score the site on the 4-dimension rubric
+2. Write a post-build review to `briefs/completed/{project}-review.md`
+3. Identify the weakest dimension and what to improve
+4. If a new pattern or lesson was learned → APPEND it to CLAUDE.md Lessons Learned
+5. If quality bar should be raised → UPDATE QUALITY-STANDARDS.md
+
+This creates a compounding knowledge loop:
+Build → Score → Review → Learn → Update docs → Next build starts smarter
+
+### Agencies to Study (Bookmark These)
+- Ueno, Immersive Garden, Octave & Octave, Active Theory, Locomotive
+- Browse Awwwards SOTD weekly for inspiration
+- Reverse-engineer: what makes a site feel $15K vs $5K?
