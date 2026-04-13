@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "updated": "2026-04-13T14:35:00-07:00",
+  "owner": "Sean Trinh",
+  "agency": "Trinh Media",
+  "projects": [
+    {
+      "id": "t4-folsom",
+      "name": "T4 Tea For U",
+      "url": "https://t4-folsom.vercel.app",
+      "thumb": "https://t4-folsom.vercel.app/images/2H0A1219.jpg",
+      "tag": "Restaurant · Web",
+      "description": "Premium boba shop site with cinematic food photography, menu showcase, and Folsom location finder.",
+      "category": "Restaurant",
+      "status": "live",
+      "portfolioVisible": true,
+      "scores": { "design": 7.5, "usability": 7.0, "creativity": 7.5, "content": 8.0 },
+      "score": 7.5,
+      "shipped": "2026-04-10",
+      "lastWorked": "2026-04-12",
+      "issues": [
+        { "priority": "high", "note": "Hero photography feels iPhone-grade — need cinematic pro shots", "impact": 3, "added": "2026-04-13" },
+        { "priority": "med",  "note": "Menu has no search/filter by type (milk tea, fruit, slush)", "impact": 2, "added": "2026-04-13" },
+        { "priority": "low",  "note": "Footer missing phone number + hours", "impact": 1, "added": "2026-04-13" }
+      ],
+      "nextAction": "Replace hero image with pro cinematic boba shot"
+    },
+    {
+      "id": "paws-and-co",
+      "name": "Paws & Co Pet Shop",
+      "url": "https://paws-and-co-eta.vercel.app",
+      "thumb": "https://paws-and-co-eta.vercel.app/og.jpg",
+      "tag": "Pet Retail · 3D",
+      "description": "Full-service pet shop with cinematic video hero, parallax depth gallery, and Three.js orb animations.",
+      "category": "Pet Retail",
+      "status": "live",
+      "portfolioVisible": true,
+      "scores": { "design": 7.5, "usability": 7.0, "creativity": 7.5, "content": 7.0 },
+      "score": 7.3,
+      "shipped": "2026-04-11",
+      "lastWorked": "2026-04-12",
+      "issues": [
+        { "priority": "high", "note": "Three.js orbs may hurt mobile performance — check FPS on low-end Android", "impact": 3, "added": "2026-04-13" },
+        { "priority": "med",  "note": "No product catalog yet — visitors can't browse inventory", "impact": 3, "added": "2026-04-13" },
+        { "priority": "low",  "note": "Footer social links placeholder", "impact": 1, "added": "2026-04-13" }
+      ],
+      "nextAction": "Audit mobile FPS with Three.js orbs — throttle if < 30fps"
+    },
+    {
+      "id": "underground-reptiles",
+      "name": "Underground Reptiles",
+      "url": "https://underground-reptiles.vercel.app",
+      "thumb": "https://underground-reptiles.vercel.app/og.jpg",
+      "tag": "E-commerce · Retail",
+      "description": "Premium captive-bred reptile e-commerce with product grid, cart drawer, and atmospheric dark-gold styling.",
+      "category": "E-commerce",
+      "status": "live",
+      "portfolioVisible": true,
+      "scores": { "design": 8.0, "usability": 7.5, "creativity": 7.5, "content": 8.0 },
+      "score": 7.75,
+      "shipped": "2026-04-11",
+      "lastWorked": "2026-04-12",
+      "issues": [
+        { "priority": "high", "note": "Cart drawer has no checkout flow — purely UI", "impact": 3, "added": "2026-04-13" },
+        { "priority": "med",  "note": "Product grid needs category filters (snakes, lizards, geckos)", "impact": 2, "added": "2026-04-13" },
+        { "priority": "low",  "note": "No FAQ/shipping policy page", "impact": 1, "added": "2026-04-13" }
+      ],
+      "nextAction": "Wire cart drawer to Stripe checkout (or explicit 'contact to buy' flow)"
+    },
+    {
+      "id": "emyies-shop",
+      "name": "Emyies Shop",
+      "url": "https://emyies-shop.vercel.app",
+      "thumb": "https://emyies-shop.vercel.app/og.jpg",
+      "tag": "Artisan · E-com",
+      "description": "Handcrafted wire-jewelry storefront with koi-themed slideshow and artisan brand storytelling.",
+      "category": "Artisan",
+      "status": "live",
+      "portfolioVisible": true,
+      "scores": { "design": 7.5, "usability": 7.0, "creativity": 7.5, "content": 7.0 },
+      "score": 7.25,
+      "shipped": "2026-04-12",
+      "lastWorked": "2026-04-12",
+      "issues": [
+        { "priority": "high", "note": "Product gallery is slideshow-only — no grid view for browsing", "impact": 3, "added": "2026-04-13" },
+        { "priority": "med",  "note": "No About page with maker's story (this brand lives or dies on story)", "impact": 2, "added": "2026-04-13" },
+        { "priority": "low",  "note": "Instagram feed integration would strengthen authenticity", "impact": 1, "added": "2026-04-13" }
+      ],
+      "nextAction": "Add product grid view alongside slideshow"
+    },
+    {
+      "id": "trinh-media-hq",
+      "name": "Trinh Media (HQ)",
+      "url": "https://trinh-media-site.vercel.app",
+      "thumb": "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=1600&q=80",
+      "tag": "Agency · HQ",
+      "description": "Agency portfolio — cinematic video hero, signature color-shift theme, custom glowing cursor, and live-rendered project grid.",
+      "category": "HQ",
+      "status": "live",
+      "portfolioVisible": false,
+      "scores": { "design": 8.0, "usability": 8.0, "creativity": 8.5, "content": 7.5 },
+      "score": 8.0,
+      "shipped": "2026-04-13",
+      "lastWorked": "2026-04-13",
+      "issues": [
+        { "priority": "high", "note": "No real testimonials yet — need 1–2 to earn their place on hero", "impact": 3, "added": "2026-04-13" },
+        { "priority": "med",  "note": "Contact form has no backend — submissions go nowhere", "impact": 3, "added": "2026-04-13" },
+        { "priority": "low",  "note": "Services section could show price tiers for anchoring", "impact": 2, "added": "2026-04-13" }
+      ],
+      "nextAction": "Wire contact form to email via Formspree / Resend"
+    }
+  ],
+  "benchmarks": [
+    { "name": "Ueno",             "note": "Branding + personality + world-class design", "url": "https://ueno.co" },
+    { "name": "Immersive Garden", "note": "Awwwards SOTY immersive experiences",        "url": "https://immersive-g.com" },
+    { "name": "Active Theory",    "note": "WebGL / Three.js masterpieces",               "url": "https://activetheory.net" },
+    { "name": "Locomotive",       "note": "Smooth scroll + creative animations",         "url": "https://locomotive.ca" }
+  ]
+}
