@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paws &amp; Co | Your Neighborhood Pet Shop — Sacramento, CA</title>
+    <meta name="description" content="Paws &amp; Co is Sacramento's favorite neighborhood pet shop. Grooming, boarding, premium supplies, and adoption services. Where every pet feels at home.">
+    <meta property="og:title" content="Paws &amp; Co | Your Neighborhood Pet Shop">
+    <meta property="og:description" content="Grooming, boarding, premium supplies, and adoption. Sacramento's favorite pet shop.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=1200&q=80">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+
+    <style>
+        /* === RESET === */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            background: #1A1410; color: #F5F0EB;
+            overflow-x: hidden; line-height: 1.6;
+        }
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+        ::selection { background: rgba(214,163,92,0.3); }
+        /* === THEME === */
+        :root {
+            --bg: #1A1410;
+            --bg-2: #211A14;
+            --bg-3: #2A2118;
+            --warm: #D6A35C;
+            --warm-light: #E8C88A;
+            --warm-dark: #B8863A;
+            --rust: #C46A3A;
+            --sage: #7A9A6D;
+            --cream: #F5F0EB;
+            --text: #F5F0EB;
+            --text-muted: #B8AFA5;
+            --glass: rgba(255,255,255,0.04);
+            --glass-border: rgba(255,255,255,0.08);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--warm-dark); border-radius: 3px; }
+
+        /* === NAV === */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 20px 0; background: rgba(26,20,16,0.8);
+            backdrop-filter: blur(24px); border-bottom: 1px solid var(--glass-border);
+            transition: all 0.4s ease;
+        }
+        .nav.scrolled { padding: 12px 0; background: rgba(26,20,16,0.95); }        .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+        .nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--warm); }
+        .nav-logo span { color: var(--cream); font-size: 0.6em; font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; margin-left: 8px; }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { font-size: 0.85rem; color: var(--text-muted); letter-spacing: 0.5px; }
+        .nav-links a:hover { color: var(--warm); }
+        .nav-cta { padding: 10px 24px; background: var(--warm); color: var(--bg); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px; border-radius: 100px; }
+        .nav-cta:hover { background: var(--warm-light); transform: translateY(-1px); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+        .hamburger span { width: 22px; height: 2px; background: var(--cream); transition: all 0.3s; }
+
+        /* === HERO === */
+        .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+        .hero-canvas { position: absolute; inset: 0; z-index: 0; }
+        .hero-img {
+            position: absolute; inset: 0; z-index: 1;
+            background: url('https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=1600&q=80') center/cover no-repeat;
+        }
+        .hero-overlay {
+            position: absolute; inset: 0; z-index: 2;
+            background: linear-gradient(135deg, rgba(26,20,16,0.7) 0%, rgba(26,20,16,0.4) 40%, rgba(26,20,16,0.85) 100%);
+        }
+        .hero-content { position: relative; z-index: 3; max-width: 640px; padding: 0 32px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.72rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--warm); margin-bottom: 24px;
+            padding: 8px 16px; background: rgba(214,163,92,0.1); border: 1px solid rgba(214,163,92,0.2); border-radius: 100px;
+        }
+        .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--sage); border-radius: 50%; }        .hero h1 {
+            font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem, 6vw, 4.2rem);
+            line-height: 1.08; margin-bottom: 20px; color: var(--cream);
+        }
+        .hero h1 em { font-style: normal; color: var(--warm); }
+        .hero-sub { font-size: 1.1rem; color: var(--text-muted); max-width: 480px; line-height: 1.7; margin-bottom: 36px; }
+        .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn { display: inline-block; padding: 14px 32px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.5px; border-radius: 100px; transition: all 0.3s ease; cursor: pointer; border: none; }
+        .btn-warm { background: var(--warm); color: var(--bg); }
+        .btn-warm:hover { background: var(--warm-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(214,163,92,0.25); }
+        .btn-ghost { background: transparent; color: var(--cream); border: 1px solid var(--glass-border); }
+        .btn-ghost:hover { border-color: var(--warm); color: var(--warm); }
+
+        /* === TRUST BAR === */
+        .trust { padding: 32px 0; background: var(--bg-2); border-bottom: 1px solid var(--glass-border); }
+        .trust .container { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
+        .trust-item { display: flex; align-items: center; gap: 10px; }
+        .trust-icon { font-size: 1.2rem; }
+        .trust-text { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.5px; }
+        .trust-text strong { color: var(--cream); }
+
+        /* === SECTIONS === */
+        section { padding: 120px 0; }
+        .tag { font-size: 0.7rem; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--warm); margin-bottom: 12px; display: inline-block; }
+        .title { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3rem); color: var(--cream); margin-bottom: 16px; line-height: 1.15; }
+        .subtitle { font-size: 1.05rem; color: var(--text-muted); max-width: 520px; line-height: 1.7; }
+        /* === SERVICES === */
+        .services { background: var(--bg); }
+        .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; }
+        .svc {
+            padding: 36px 28px; background: var(--bg-2); border: 1px solid var(--glass-border);
+            border-radius: 16px; transition: all 0.4s ease; position: relative; overflow: hidden;
+        }
+        .svc::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--warm), var(--sage)); transform: scaleX(0);
+            transition: transform 0.4s ease; transform-origin: left;
+        }
+        .svc:hover { transform: translateY(-6px); border-color: rgba(214,163,92,0.15); }
+        .svc:hover::after { transform: scaleX(1); }
+        .svc-icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(214,163,92,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 20px; }
+        .svc h3 { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: var(--cream); margin-bottom: 10px; }
+        .svc p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+
+        /* === GALLERY === */
+        .gallery { background: var(--bg-2); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
+        .gallery-item {
+            position: relative; overflow: hidden; border-radius: 12px;
+            aspect-ratio: 4/3; cursor: pointer;
+        }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .gallery-item:hover img { transform: scale(1.06); }
+        .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+        .gallery-caption {
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 24px;
+            background: linear-gradient(transparent, rgba(26,20,16,0.9));
+            opacity: 0; transition: opacity 0.4s;
+        }
+        .gallery-item:hover .gallery-caption { opacity: 1; }
+        .gallery-caption p { font-size: 0.85rem; color: var(--cream); }
+        /* === ABOUT === */
+        .about { background: var(--bg); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 56px; }
+        .about-img { position: relative; border-radius: 16px; overflow: hidden; }
+        .about-img img { width: 100%; height: 480px; object-fit: cover; }
+        .about-img-badge {
+            position: absolute; bottom: 24px; left: 24px; padding: 12px 20px;
+            background: rgba(26,20,16,0.9); backdrop-filter: blur(12px);
+            border-radius: 12px; border: 1px solid var(--glass-border);
+        }
+        .about-img-badge strong { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--warm); display: block; }
+        .about-img-badge span { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+        .about-text p { color: var(--text-muted); margin-bottom: 20px; line-height: 1.8; font-size: 1.02rem; }
+        .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+        .about-feat { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--cream); }
+        .about-feat::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--sage); flex-shrink: 0; }
+
+        /* === TESTIMONIALS === */
+        .testimonials { background: var(--bg-2); }
+        .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+        .test-card {
+            padding: 36px 28px; background: var(--bg-3); border: 1px solid var(--glass-border);
+            border-radius: 16px; position: relative;
+        }
+        .test-stars { color: var(--warm); font-size: 0.9rem; margin-bottom: 16px; letter-spacing: 2px; }
+        .test-card blockquote { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+        .test-author { font-size: 0.85rem; color: var(--cream); font-weight: 600; }
+        .test-pet { font-size: 0.8rem; color: var(--text-muted); }
+        /* === CTA === */
+        .cta { background: linear-gradient(135deg, var(--bg-3), var(--bg)); text-align: center; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
+        .cta .subtitle { margin: 0 auto 36px; }
+
+        /* === CONTACT === */
+        .contact { background: var(--bg); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 56px; }
+        .contact-info p { color: var(--text-muted); line-height: 1.8; margin-bottom: 24px; }
+        .c-detail { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; }
+        .c-detail-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(214,163,92,0.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+        .c-detail-text { font-size: 0.95rem; color: var(--text-muted); }
+        .c-detail-text a:hover { color: var(--warm); }
+        .c-form { display: flex; flex-direction: column; gap: 14px; }
+        .c-form input, .c-form textarea {
+            width: 100%; padding: 14px 18px; background: var(--bg-2); border: 1px solid var(--glass-border);
+            color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.92rem;
+            border-radius: 10px; outline: none; transition: border-color 0.3s;
+        }
+        .c-form input:focus, .c-form textarea:focus { border-color: var(--warm); }
+        .c-form textarea { min-height: 120px; resize: vertical; }
+        .c-form input::placeholder, .c-form textarea::placeholder { color: rgba(184,175,165,0.5); }
+        .c-hours { margin-top: 32px; padding: 24px; background: var(--bg-2); border-radius: 12px; border: 1px solid var(--glass-border); }
+        .c-hours h4 { font-family: 'DM Serif Display', serif; color: var(--cream); margin-bottom: 12px; }
+        .c-hours p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; }
+
+        /* === FOOTER === */
+        .footer { padding: 40px 0; background: var(--bg-2); border-top: 1px solid var(--glass-border); }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; }
+        .footer p { font-size: 0.82rem; color: var(--text-muted); }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-links a { font-size: 0.82rem; color: var(--text-muted); }
+        .footer-links a:hover { color: var(--warm); }
+        /* === ANIMATIONS === */
+        .reveal { opacity: 0; transform: translateY(28px); transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-d1 { transition-delay: 0.1s; }
+        .reveal-d2 { transition-delay: 0.2s; }
+        .reveal-d3 { transition-delay: 0.3s; }
+        .reveal-d4 { transition-delay: 0.4s; }
+
+        /* === PARALLAX IMAGE DEPTH === */
+        .depth-container { perspective: 1000px; }
+        .depth-layer { transition: transform 0.1s ease-out; will-change: transform; }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 968px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .nav-links.open {
+                display: flex; flex-direction: column; position: fixed; top: 0; right: 0;
+                width: 280px; height: 100vh; background: rgba(26,20,16,0.98);
+                padding: 100px 40px 40px; gap: 20px; backdrop-filter: blur(20px);
+                border-left: 1px solid var(--glass-border);
+            }
+            .services-grid { grid-template-columns: 1fr 1fr; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; }
+            .gallery-item:nth-child(1) { grid-column: span 2; }
+            .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+            .test-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .services-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .gallery-item:nth-child(1) { grid-column: span 1; }
+            section { padding: 80px 0; }
+            .container { padding: 0 20px; }
+            .about-features { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAV -->
+    <nav class="nav" id="nav">
+        <div class="container">
+            <a href="#" class="nav-logo">Paws &amp; Co<span>Pet Shop</span></a>
+            <div class="nav-links" id="navLinks">
+                <a href="#services">Services</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#about">About</a>
+                <a href="#reviews">Reviews</a>
+                <a href="#contact" class="nav-cta">Book Now</a>
+            </div>
+            <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO with 3D Canvas + Photo Overlay -->
+    <section class="hero" id="hero">
+        <div class="hero-canvas" id="hero3d"></div>
+        <div class="hero-img"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content container">
+            <div class="hero-badge">Now Open</div>
+            <h1>Where Every Pet<br>Feels Like <em>Family</em></h1>
+            <p class="hero-sub">Full-service grooming, boarding, premium supplies, and adoption. Sacramento's most loved neighborhood pet shop.</p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-warm">Book a Grooming</a>
+                <a href="#services" class="btn btn-ghost">Our Services</a>
+            </div>
+        </div>
+    </section>
+    <!-- TRUST BAR -->
+    <div class="trust">
+        <div class="container">
+            <div class="trust-item"><span class="trust-icon">&#128062;</span><span class="trust-text"><strong>2,000+</strong> Happy Pets</span></div>
+            <div class="trust-item"><span class="trust-icon">&#11088;</span><span class="trust-text"><strong>4.9</strong> Google Rating</span></div>
+            <div class="trust-item"><span class="trust-icon">&#127968;</span><span class="trust-text"><strong>Family</strong> Owned</span></div>
+            <div class="trust-item"><span class="trust-icon">&#128153;</span><span class="trust-text"><strong>Vet</strong> Recommended</span></div>
+        </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="reveal">
+                <span class="tag">What We Do</span>
+                <h2 class="title">Everything Your Pet Needs,<br>Under One Roof</h2>
+            </div>
+            <div class="services-grid">
+                <div class="svc reveal reveal-d1">
+                    <div class="svc-icon">&#9988;</div>
+                    <h3>Grooming &amp; Spa</h3>
+                    <p>Full baths, breed-specific cuts, nail trims, teeth cleaning, and spa treatments. Your pet leaves looking and feeling their best.</p>
+                </div>
+                <div class="svc reveal reveal-d2">
+                    <div class="svc-icon">&#127969;</div>
+                    <h3>Boarding &amp; Daycare</h3>
+                    <p>Overnight stays and daily daycare in a safe, climate-controlled space. 24/7 monitoring, daily playtime, and photo updates.</p>
+                </div>
+                <div class="svc reveal reveal-d3">
+                    <div class="svc-icon">&#128722;</div>
+                    <h3>Premium Supplies</h3>
+                    <p>Curated food, treats, toys, and accessories from brands we trust. No filler, no junk. Only what we'd give our own pets.</p>
+                </div>
+                <div class="svc reveal reveal-d4">
+                    <div class="svc-icon">&#128054;</div>
+                    <h3>Adoption</h3>
+                    <p>We partner with local rescues to help pets find their forever homes. Meet adoptable dogs and cats in-store every weekend.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- GALLERY with real Unsplash images -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="reveal">
+                <span class="tag">Our Shop</span>
+                <h2 class="title">A Place Built for Pets<br>&amp; the People Who Love Them</h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item reveal reveal-d1 depth-container">
+                    <img class="depth-layer" src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80" alt="Golden retriever in warm lighting" loading="lazy">
+                    <div class="gallery-caption"><p>Our favorite regular, Cooper</p></div>
+                </div>
+                <div class="gallery-item reveal reveal-d2">
+                    <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&q=80" alt="Two dogs running together" loading="lazy">
+                    <div class="gallery-caption"><p>Daycare playtime</p></div>
+                </div>
+                <div class="gallery-item reveal reveal-d3">
+                    <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=600&q=80" alt="Cat with warm lighting" loading="lazy">
+                    <div class="gallery-caption"><p>Feline friends welcome</p></div>
+                </div>
+                <div class="gallery-item reveal reveal-d2">
+                    <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&q=80" alt="Dog grooming session" loading="lazy">
+                    <div class="gallery-caption"><p>Fresh from the spa</p></div>
+                </div>
+                <div class="gallery-item reveal reveal-d3">
+                    <img src="https://images.unsplash.com/photo-1583337130417-13571c7fba03?w=600&q=80" alt="Puppy portrait" loading="lazy">
+                    <div class="gallery-caption"><p>Adoption day smiles</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ABOUT -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-img reveal reveal-d1 depth-container">
+                    <img class="depth-layer" src="https://images.unsplash.com/photo-1450778869180-cfe0f6b5ad40?w=800&q=80" alt="Person with dog in park" loading="lazy">
+                    <div class="about-img-badge">
+                        <strong>8+</strong>
+                        <span>Years Serving Sac</span>
+                    </div>
+                </div>
+                <div class="about-text reveal reveal-d2">
+                    <span class="tag">Our Story</span>
+                    <h2 class="title">Started With One Rescue.<br>Now We Serve Thousands.</h2>
+                    <p>Paws &amp; Co started in 2018 when our founder rescued a scruffy mutt named Biscuit from the Sacramento SPCA. That experience revealed how hard it was to find quality pet care, honest advice, and a shop that actually cared.</p>
+                    <p>So we built one. A neighborhood spot where every pet gets treated like our own, where the staff knows your dog's name, and where you can trust every product on the shelf.</p>
+                    <div class="about-features">
+                        <div class="about-feat">Certified groomers</div>
+                        <div class="about-feat">Vet-approved products</div>
+                        <div class="about-feat">Fear-free handling</div>
+                        <div class="about-feat">Locally owned</div>
+                        <div class="about-feat">Rescue partnerships</div>
+                        <div class="about-feat">Loyalty rewards</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" id="reviews">
+        <div class="container">
+            <div class="reveal" style="text-align:center;">
+                <span class="tag">Reviews</span>
+                <h2 class="title">What Sacramento Pet Parents Say</h2>
+            </div>
+            <div class="test-grid">
+                <div class="test-card reveal reveal-d1">
+                    <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <blockquote>"My golden doodle Luna is terrified of groomers, but the team at Paws made her feel completely safe. She actually wagged her tail when we walked in the second time."</blockquote>
+                    <div class="test-author">Maria C.</div>
+                    <div class="test-pet">Luna, Goldendoodle</div>
+                </div>
+                <div class="test-card reveal reveal-d2">
+                    <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <blockquote>"Best pet store in Sacramento, period. The staff actually knows about nutrition and helped us switch our senior cat to a diet that changed his energy completely."</blockquote>
+                    <div class="test-author">James T.</div>
+                    <div class="test-pet">Mochi, Tabby Cat</div>
+                </div>
+                <div class="test-card reveal reveal-d3">
+                    <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <blockquote>"We adopted our pit mix through their rescue partnership and they set us up with everything we needed. Food, leash, bed, toys. Felt like family from day one."</blockquote>
+                    <div class="test-author">Priya &amp; Dan K.</div>
+                    <div class="test-pet">Tank, Pit Bull Mix</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container reveal">
+            <span class="tag">Ready?</span>
+            <h2 class="title">Your Pet Deserves the Best.<br>So Do You.</h2>
+            <p class="subtitle">Walk in anytime or book a grooming session online. First-time customers get 15% off their first groom.</p>
+            <a href="#contact" class="btn btn-warm">Book Your Visit</a>
+        </div>
+    </section>
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="reveal">
+                <span class="tag">Visit Us</span>
+                <h2 class="title">Come Say Hi</h2>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info reveal reveal-d1">
+                    <p>Whether you're booking a grooming, picking up supplies, or just want to browse with your pup, we'd love to see you. Walk-ins always welcome.</p>
+                    <div class="c-detail">
+                        <div class="c-detail-icon">&#128205;</div>
+                        <div class="c-detail-text">1847 Folsom Blvd, Sacramento, CA 95819</div>
+                    </div>
+                    <div class="c-detail">
+                        <div class="c-detail-icon">&#128222;</div>
+                        <div class="c-detail-text"><a href="tel:+19165551234">(916) 555-1234</a></div>
+                    </div>
+                    <div class="c-detail">
+                        <div class="c-detail-icon">&#9993;</div>
+                        <div class="c-detail-text"><a href="mailto:hello@pawsandco.shop">hello@pawsandco.shop</a></div>
+                    </div>
+                    <div class="c-hours">
+                        <h4>Hours</h4>
+                        <p>Monday - Friday: 9am - 7pm<br>Saturday: 9am - 6pm<br>Sunday: 10am - 4pm</p>
+                    </div>
+                </div>
+                <form class="c-form reveal reveal-d2" onsubmit="event.preventDefault(); this.innerHTML='<p style=\'color:var(--warm);padding:40px;text-align:center;font-family:DM Serif Display,serif;font-size:1.3rem;\'>We got your message! See you soon.</p>';">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Email" required>
+                    <input type="text" placeholder="Pet's Name &amp; Breed">
+                    <textarea placeholder="How can we help?"></textarea>
+                    <button type="submit" class="btn btn-warm" style="width:100%;border:none;cursor:pointer;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Paws &amp; Co. Sacramento, CA. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#services">Services</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+    <!-- ========== ANIMATOR: 3D + EFFECTS ========== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+    // === THREE.JS — CINEMATIC WARM FLOATING ORBS ===
+    (function() {
+        const c = document.getElementById('hero3d');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x1A1410, 0.012);
+        const camera = new THREE.PerspectiveCamera(55, innerWidth/innerHeight, 0.1, 500);
+        camera.position.set(0, 0, 35);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(innerWidth, innerHeight);
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.4;
+        c.appendChild(renderer.domElement);
+
+        // Cinematic warm lighting
+        const key = new THREE.DirectionalLight(0xD6A35C, 1.6);
+        key.position.set(6, 10, 5); scene.add(key);
+        const fill = new THREE.DirectionalLight(0x7A9A6D, 0.5);
+        fill.position.set(-6, 2, 4); scene.add(fill);
+        const rim = new THREE.DirectionalLight(0xF5F0EB, 0.7);
+        rim.position.set(0, -6, -4); scene.add(rim);
+        scene.add(new THREE.AmbientLight(0x1A1410, 0.5));
+        // Premium materials
+        const mats = [
+            new THREE.MeshPhongMaterial({ color: 0xD6A35C, specular: 0xF5F0EB, shininess: 100, transparent: true, opacity: 0.7 }),
+            new THREE.MeshPhongMaterial({ color: 0x7A9A6D, specular: 0xE8C88A, shininess: 70, transparent: true, opacity: 0.55 }),
+            new THREE.MeshPhongMaterial({ color: 0xC46A3A, specular: 0xF5F0EB, shininess: 80, transparent: true, opacity: 0.5 }),
+            new THREE.MeshPhongMaterial({ color: 0xE8C88A, specular: 0xF5F0EB, shininess: 120, transparent: true, opacity: 0.4 }),
+        ];
+
+        // Floating orbs — smooth, warm, organic feel
+        const orbs = [];
+        const data = [
+            { r: 3.5, p: [-10, 3, -6] }, { r: 2.2, p: [8, -2, -10] },
+            { r: 1.6, p: [12, 6, -14] }, { r: 4.5, p: [-14, -5, -12] },
+            { r: 1.2, p: [4, 7, -5] }, { r: 2.8, p: [-6, -7, -16] },
+            { r: 0.9, p: [9, 0, -4] }, { r: 1.8, p: [-3, 5, -9] },
+            { r: 3, p: [15, -3, -18] },
+        ];
+        data.forEach((d, i) => {
+            const mesh = new THREE.Mesh(
+                new THREE.SphereGeometry(d.r, 48, 48),
+                mats[i % mats.length]
+            );
+            mesh.position.set(...d.p);
+            mesh.userData = {
+                by: d.p[1], sp: 0.25 + Math.random() * 0.35,
+                amp: 0.6 + Math.random() * 1.4, rs: (Math.random() - 0.5) * 0.004
+            };
+            scene.add(mesh); orbs.push(mesh);
+        });
+        // Mouse parallax
+        let mx = 0, my = 0;
+        document.addEventListener('mousemove', e => {
+            mx = (e.clientX / innerWidth - 0.5) * 2;
+            my = (e.clientY / innerHeight - 0.5) * 2;
+        });
+
+        // Render loop
+        (function animate() {
+            requestAnimationFrame(animate);
+            const t = Date.now() * 0.001;
+            orbs.forEach(o => {
+                o.position.y = o.userData.by + Math.sin(t * o.userData.sp) * o.userData.amp;
+                o.rotation.y += o.userData.rs;
+                o.rotation.x += o.userData.rs * 0.6;
+            });
+            camera.position.x += (mx * 3.5 - camera.position.x) * 0.018;
+            camera.position.y += (-my * 2.5 - camera.position.y) * 0.018;
+            camera.lookAt(0, 0, 0);
+            renderer.render(scene, camera);
+        })();
+
+        addEventListener('resize', () => {
+            camera.aspect = innerWidth / innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(innerWidth, innerHeight);
+        });
+    })();
+    // === SCROLL REVEAL ===
+    (function() {
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    })();
+
+    // === NAV SCROLL ===
+    (function() {
+        const nav = document.getElementById('nav');
+        addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', scrollY > 50);
+        });
+    })();
+
+    // === 4D DEPTH PARALLAX ON GALLERY IMAGES ===
+    (function() {
+        document.querySelectorAll('.depth-container').forEach(container => {
+            const layer = container.querySelector('.depth-layer');
+            if (!layer) return;
+            container.addEventListener('mousemove', e => {
+                const rect = container.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+                const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+                layer.style.transform = `scale(1.05) translate(${x * -12}px, ${y * -12}px) rotateY(${x * 3}deg) rotateX(${-y * 3}deg)`;
+            });
+            container.addEventListener('mouseleave', () => {
+                layer.style.transform = 'scale(1) translate(0,0) rotateY(0) rotateX(0)';
+            });
+        });
+    })();
+    </script>
+
+</body>
+</html>
