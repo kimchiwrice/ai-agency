@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRINH MEDIA — Command Center</title>
+<meta name="description" content="AI-Powered Agency Command Center — Trinh Media">
+<meta property="og:title" content="Trinh Media Command Center">
+<meta property="og:description" content="AI-Powered Web Agency Operations Dashboard">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #07070c;
+  --bg-secondary: #0e0e16;
+  --bg-card: rgba(255,255,255,0.025);
+  --bg-card-hover: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.05);
+  --border-hover: rgba(255,255,255,0.1);
+  --text-primary: #e8e6e3;
+  --text-secondary: #7a7a8e;
+  --text-muted: #44445a;
+  --accent: #6c5ce7;
+  --accent-dim: #4a3db5;
+  --accent-glow: rgba(108,92,231,0.25);
+  --green: #00d67e;
+  --green-dim: #00a862;
+  --green-glow: rgba(0,214,126,0.15);
+  --amber: #f0a030;
+  --amber-glow: rgba(240,160,48,0.15);
+  --red: #ff4757;
+  --copper: #c4956a;
+  --copper-glow: rgba(196,149,106,0.15);
+  --glass: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.06);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+</body>
+</html>
+<style>
+body {
+  font-family: var(--font);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ambient background glow */
+body::before {
+  content: '';
+  position: fixed;
+  top: -40%; left: -20%;
+  width: 80vw; height: 80vw;
+  background: radial-gradient(circle, rgba(108,92,231,0.06) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -30%; right: -10%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(0,214,126,0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+</style>
+<style>
+/* Layout */
+.app { position: relative; z-index: 1; min-height: 100vh; }
+
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  background: rgba(7,7,12,0.8);
+  position: sticky; top: 0; z-index: 100;
+}
+.topbar-brand { display: flex; align-items: center; gap: 12px; }
+.topbar-logo {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--accent), var(--green));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 800; color: #fff;
+}
+.topbar-title { font-size: 15px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-primary); }
+.topbar-sub { font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; margin-top: 2px; }
+.topbar-status { display: flex; align-items: center; gap: 16px; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 12px var(--green-glow); animation: pulse-dot 2s ease infinite; }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.status-text { font-size: 12px; color: var(--text-secondary); font-family: var(--mono); }
+.topbar-time { font-size: 12px; color: var(--text-muted); font-family: var(--mono); }
+</style>
+<style>
+.main { padding: 28px 32px; display: flex; flex-direction: column; gap: 24px; max-width: 1400px; margin: 0 auto; }
+
+/* Stats row */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card:hover { background: var(--bg-card-hover); border-color: var(--border-hover); transform: translateY(-2px); }
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.stat-card:hover::before { opacity: 1; }
+.stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-muted); margin-bottom: 10px; }
+.stat-value { font-size: 32px; font-weight: 700; color: var(--text-primary); line-height: 1; }
+.stat-sub { font-size: 12px; color: var(--text-secondary); margin-top: 8px; font-family: var(--mono); }
+.stat-card.accent .stat-value { color: var(--accent); }
+.stat-card.green .stat-value { color: var(--green); }
+.stat-card.amber .stat-value { color: var(--amber); }
+.stat-card.copper .stat-value { color: var(--copper); }
+</style>
+<style>
+/* Grid layout for main content */
+.content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.content-grid .full-width { grid-column: 1 / -1; }
+
+/* Card base */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: all 0.3s ease;
+  align-self: start;
+}
+.card:hover { border-color: var(--border-hover); }
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.card-title { font-size: 13px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); font-weight: 600; }
+.card-badge {
+  font-size: 10px; font-family: var(--mono); padding: 4px 10px;
+  border-radius: 20px; background: var(--glass); border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+}
+
+/* Project cards */
+.project-list { display: flex; flex-direction: column; gap: 12px; }
+.project-item {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 18px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+.project-item:hover { background: var(--bg-card-hover); border-color: var(--border-hover); transform: translateX(4px); }
+</style>
+<style>
+.project-icon {
+  width: 42px; height: 42px; border-radius: var(--radius-xs);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.project-info { flex: 1; min-width: 0; }
+.project-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.project-desc { font-size: 12px; color: var(--text-muted); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.project-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+.project-status {
+  font-size: 10px; font-family: var(--mono); padding: 3px 10px;
+  border-radius: 20px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.project-status.live { background: var(--green-glow); color: var(--green); border: 1px solid rgba(0,214,126,0.2); }
+.project-status.building { background: var(--amber-glow); color: var(--amber); border: 1px solid rgba(240,160,48,0.2); }
+.project-status.planned { background: var(--glass); color: var(--text-muted); border: 1px solid var(--glass-border); }
+.project-score { font-size: 11px; font-family: var(--mono); color: var(--text-secondary); }
+
+/* Quality Radar */
+.radar-container { display: flex; align-items: center; justify-content: center; padding: 0; }
+.radar-svg { width: 180px; height: 180px; flex-shrink: 0; }
+.radar-label { font-size: 11px; fill: var(--text-secondary); font-family: var(--font); }
+.radar-value { font-size: 10px; fill: var(--text-muted); font-family: var(--mono); }
+.radar-grid { stroke: var(--border); stroke-width: 1; fill: none; }
+.radar-shape { fill: rgba(108,92,231,0.15); stroke: var(--accent); stroke-width: 2; transition: all 0.5s ease; }
+.radar-dot { fill: var(--accent); r: 4; filter: drop-shadow(0 0 6px var(--accent-glow)); }
+
+.radar-legend { display: flex; flex-direction: column; gap: 12px; margin-left: 28px; }
+.legend-item { display: flex; align-items: center; gap: 10px; }
+.legend-bar-wrap { width: 100px; height: 6px; background: var(--glass); border-radius: 3px; overflow: hidden; }
+.legend-bar { height: 100%; border-radius: 3px; transition: width 1s ease; }
+.legend-label { font-size: 11px; color: var(--text-secondary); width: 70px; }
+.legend-score { font-size: 12px; font-family: var(--mono); color: var(--text-primary); font-weight: 600; width: 30px; text-align: right; }
+</style>
+<style>
+/* Pipeline */
+.pipeline { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 4px; }
+.pipeline-stage {
+  flex: 1; min-width: 140px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+  position: relative;
+}
+.pipeline-stage.active { border-color: var(--accent); background: rgba(108,92,231,0.06); }
+.pipeline-stage.done { border-color: var(--green-dim); background: rgba(0,214,126,0.04); }
+.pipeline-stage-name { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 600; }
+.pipeline-stage-count { font-size: 28px; font-weight: 700; color: var(--text-primary); margin: 8px 0 4px; }
+.pipeline-stage.active .pipeline-stage-count { color: var(--accent); }
+.pipeline-stage.done .pipeline-stage-count { color: var(--green); }
+.pipeline-stage-label { font-size: 10px; color: var(--text-muted); font-family: var(--mono); }
+.pipeline-arrow { display: flex; align-items: center; color: var(--text-muted); font-size: 18px; flex-shrink: 0; }
+
+/* Activity feed */
+.activity-list { display: flex; flex-direction: column; gap: 0; }
+.activity-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.activity-item:last-child { border-bottom: none; }
+</style>
+<style>
+.activity-dot {
+  width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0;
+}
+.activity-dot.deploy { background: var(--green); box-shadow: 0 0 8px var(--green-glow); }
+.activity-dot.build { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+.activity-dot.review { background: var(--amber); box-shadow: 0 0 8px var(--amber-glow); }
+.activity-dot.system { background: var(--copper); box-shadow: 0 0 8px var(--copper-glow); }
+.activity-content { flex: 1; }
+.activity-text { font-size: 13px; color: var(--text-primary); line-height: 1.5; }
+.activity-text strong { font-weight: 600; }
+.activity-time { font-size: 11px; color: var(--text-muted); font-family: var(--mono); margin-top: 3px; }
+
+/* Quick actions */
+.actions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.action-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 16px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 12px; font-weight: 500; font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.action-btn:hover { background: var(--bg-card-hover); border-color: var(--border-hover); color: var(--text-primary); transform: translateY(-2px); }
+.action-btn .icon { font-size: 16px; }
+
+/* System bar at bottom */
+.system-bar {
+  padding: 14px 32px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; color: var(--text-muted); font-family: var(--mono);
+  background: rgba(7,7,12,0.6);
+  backdrop-filter: blur(12px);
+}
+</style>
+<style>
+/* Responsive */
+@media (max-width: 1024px) {
+  .content-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .main { padding: 20px 16px; }
+  .topbar { padding: 16px; }
+  .system-bar { padding: 12px 16px; }
+}
+@media (max-width: 640px) {
+  .stats-row { grid-template-columns: 1fr; }
+  .actions-grid { grid-template-columns: 1fr 1fr; }
+  .pipeline { flex-direction: column; }
+  .pipeline-arrow { transform: rotate(90deg); justify-content: center; }
+  .radar-container { flex-direction: column; }
+  .radar-legend { margin-left: 0; margin-top: 16px; flex-direction: row; flex-wrap: wrap; }
+}
+
+/* Scroll reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.35s; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+::selection { background: var(--accent); color: #fff; }
+</style>
+
+<div class="app">
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-logo">T</div>
+      <div>
+        <div class="topbar-title">Trinh Media</div>
+        <div class="topbar-sub">Command Center</div>
+      </div>
+    </div>
+    <div class="topbar-status">
+      <div class="status-dot"></div>
+      <span class="status-text">SYSTEM ONLINE</span>
+      <span class="topbar-time" id="liveTime"></span>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card accent reveal">
+        <div class="stat-label">Total Projects</div>
+        <div class="stat-value" id="statProjects">2</div>
+        <div class="stat-sub">+1 this month</div>
+      </div>
+      <div class="stat-card green reveal reveal-delay-1">
+        <div class="stat-label">Live Sites</div>
+        <div class="stat-value" id="statLive">2</div>
+        <div class="stat-sub">100% uptime</div>
+      </div>
+      <div class="stat-card copper reveal reveal-delay-2">
+        <div class="stat-label">Avg Quality Score</div>
+        <div class="stat-value" id="statQuality">7.3</div>
+        <div class="stat-sub">target: 8.5+</div>
+      </div>
+      <div class="stat-card amber reveal reveal-delay-3">
+        <div class="stat-label">Portfolio Value Tier</div>
+        <div class="stat-value" id="statTier">$10K</div>
+        <div class="stat-sub">next: $15K+</div>
+      </div>
+    </div>
+
+    <!-- Pipeline -->
+    <div class="card full-width reveal">
+      <div class="card-header">
+        <span class="card-title">Project Pipeline</span>
+        <span class="card-badge">Live Tracker</span>
+      </div>
+      <div class="pipeline">
+        <div class="pipeline-stage done">
+          <div class="pipeline-stage-name">Brief</div>
+          <div class="pipeline-stage-count">1</div>
+          <div class="pipeline-stage-label">completed</div>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-stage done">
+          <div class="pipeline-stage-name">Build</div>
+          <div class="pipeline-stage-count">1</div>
+          <div class="pipeline-stage-label">shipped</div>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-stage done">
+          <div class="pipeline-stage-name">Review</div>
+          <div class="pipeline-stage-count">1</div>
+          <div class="pipeline-stage-label">scored</div>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-stage done">
+          <div class="pipeline-stage-name">Deploy</div>
+          <div class="pipeline-stage-count">2</div>
+          <div class="pipeline-stage-label">live on vercel</div>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-stage active">
+          <div class="pipeline-stage-name">Scale</div>
+          <div class="pipeline-stage-count">∞</div>
+          <div class="pipeline-stage-label">growing</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-column grid -->
+    <div class="content-grid">
+      <!-- Projects -->
+      <div class="card reveal">
+        <div class="card-header">
+          <span class="card-title">Projects</span>
+          <span class="card-badge">2 Active</span>
+        </div>
+        <div class="project-list" id="projectList">
+          <a href="https://trinh-media-site.vercel.app" target="_blank" class="project-item">
+            <div class="project-icon" style="background:linear-gradient(135deg,#0D1F0D,#A67C52);">🏢</div>
+            <div class="project-info">
+              <div class="project-name">Trinh Media</div>
+              <div class="project-desc">Agency portfolio — dark forest + copper theme</div>
+            </div>
+            <div class="project-meta">
+              <span class="project-status live">Live</span>
+              <span class="project-score">Score: —</span>
+            </div>
+          </a>
+          <a href="https://paws-and-co-eta.vercel.app" target="_blank" class="project-item">
+            <div class="project-icon" style="background:linear-gradient(135deg,#1a3a2a,#c4956a);">🐾</div>
+            <div class="project-info">
+              <div class="project-name">Paws &amp; Co</div>
+              <div class="project-desc">Pet shop — video hero, parallax gallery, Three.js</div>
+            </div>
+            <div class="project-meta">
+              <span class="project-status live">Live</span>
+              <span class="project-score">Score: 7.3</span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!-- Quality Radar -->
+      <div class="card reveal reveal-delay-1">
+        <div class="card-header">
+          <span class="card-title">Quality Radar</span>
+          <span class="card-badge">Paws &amp; Co</span>
+        </div>
+        <div class="radar-container">
+          <svg class="radar-svg" viewBox="0 0 260 260" id="radarChart"></svg>
+          <div class="radar-legend">
+            <div class="legend-item">
+              <span class="legend-label">Design</span>
+              <div class="legend-bar-wrap"><div class="legend-bar" style="width:75%;background:var(--accent);"></div></div>
+              <span class="legend-score">7.5</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-label">Usability</span>
+              <div class="legend-bar-wrap"><div class="legend-bar" style="width:70%;background:var(--green);"></div></div>
+              <span class="legend-score">7.0</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-label">Creativity</span>
+              <div class="legend-bar-wrap"><div class="legend-bar" style="width:75%;background:var(--amber);"></div></div>
+              <span class="legend-score">7.5</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-label">Content</span>
+              <div class="legend-bar-wrap"><div class="legend-bar" style="width:70%;background:var(--copper);"></div></div>
+              <span class="legend-score">7.0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Activity Feed -->
+      <div class="card reveal reveal-delay-2">
+        <div class="card-header">
+          <span class="card-title">Recent Activity</span>
+          <span class="card-badge">Live Feed</span>
+        </div>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-dot system"></div>
+            <div class="activity-content">
+              <div class="activity-text"><strong>Quality system</strong> installed — scoring rubric, self-review loop, competitive benchmarks</div>
+              <div class="activity-time">Today 12:00</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot deploy"></div>
+            <div class="activity-content">
+              <div class="activity-text"><strong>Command Center</strong> deployed to Vercel</div>
+              <div class="activity-time">Today 11:45</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot review"></div>
+            <div class="activity-content">
+              <div class="activity-text"><strong>Paws &amp; Co</strong> scored 7.3 — approaching $10K tier</div>
+              <div class="activity-time">Today 10:30</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot deploy"></div>
+            <div class="activity-content">
+              <div class="activity-text"><strong>Paws &amp; Co</strong> deployed to paws-and-co-eta.vercel.app</div>
+              <div class="activity-time">Yesterday</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot build"></div>
+            <div class="activity-content">
+              <div class="activity-text"><strong>Paws &amp; Co</strong> — video hero added, images fixed, parallax gallery built</div>
+              <div class="activity-time">Yesterday</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot deploy"></div>
+            <div class="activity-content">
+              <div class="activity-text"><strong>Trinh Media</strong> portfolio updated with Paws &amp; Co card</div>
+              <div class="activity-time">Yesterday</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="card reveal reveal-delay-3">
+        <div class="card-header">
+          <span class="card-title">Quick Actions</span>
+        </div>
+        <div class="actions-grid">
+          <a href="https://trinh-media-site.vercel.app" target="_blank" class="action-btn"><span class="icon">🌐</span> Portfolio</a>
+          <a href="https://paws-and-co-eta.vercel.app" target="_blank" class="action-btn"><span class="icon">🐾</span> Paws &amp; Co</a>
+          <a href="https://github.com/kimchiwrice/ai-agency" target="_blank" class="action-btn"><span class="icon">📦</span> GitHub Repo</a>
+          <a href="https://vercel.com/kimchiwrices-projects" target="_blank" class="action-btn"><span class="icon">▲</span> Vercel</a>
+          <a href="https://www.awwwards.com/websites/sites_of_the_year/" target="_blank" class="action-btn"><span class="icon">🏆</span> Awwwards</a>
+          <a href="https://github.com/kimchiwrice/trinh-media-site" target="_blank" class="action-btn"><span class="icon">🚀</span> Deploy Repo</a>
+        </div>
+      </div>
+      <!-- Competitive Targets -->
+      <div class="card full-width reveal reveal-delay-4">
+        <div class="card-header">
+          <span class="card-title">Competitive Benchmarks</span>
+          <span class="card-badge">Study &amp; Beat</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+          <div style="padding:14px 16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);">
+            <div style="font-size:13px;font-weight:600;color:var(--text-primary);">Ueno</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Branding + personality + world-class design</div>
+          </div>
+          <div style="padding:14px 16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);">
+            <div style="font-size:13px;font-weight:600;color:var(--text-primary);">Immersive Garden</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Immersive digital experiences, Awwwards SOTY</div>
+          </div>
+          <div style="padding:14px 16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);">
+            <div style="font-size:13px;font-weight:600;color:var(--text-primary);">Active Theory</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">WebGL/Three.js interactive masterpieces</div>
+          </div>
+          <div style="padding:14px 16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);">
+            <div style="font-size:13px;font-weight:600;color:var(--text-primary);">Locomotive</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Smooth scroll, creative animations, clean code</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end content-grid -->
+  </main>
+  <!-- System Bar -->
+  <footer class="system-bar">
+    <span>TRINH MEDIA COMMAND CENTER v1.0</span>
+    <span id="systemInfo">ai-agency • master • 2 projects deployed</span>
+    <span>Built with Claude AI</span>
+  </footer>
+</div><!-- end app -->
+
+<script>
+// === LIVE CLOCK ===
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours().toString().padStart(2,'0');
+  const m = now.getMinutes().toString().padStart(2,'0');
+  const s = now.getSeconds().toString().padStart(2,'0');
+  document.getElementById('liveTime').textContent = h + ':' + m + ':' + s;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// === SCROLL REVEAL ===
+const reveals = document.querySelectorAll('.reveal');
+// Stagger initial reveals for cinematic entrance
+reveals.forEach((el, i) => {
+  setTimeout(() => {
+    el.classList.add('visible');
+  }, 80 + (i * 60));
+});
+// Also observe for elements further down the page
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.05 });
+reveals.forEach(el => observer.observe(el));
+</script>
+<script>
+// === RADAR CHART ===
+(function() {
+  const svg = document.getElementById('radarChart');
+  const cx = 130, cy = 130, maxR = 95;
+  const categories = [
+    { name: 'Design', score: 7.5, angle: -90 },
+    { name: 'Usability', score: 7.0, angle: 0 },
+    { name: 'Content', score: 7.0, angle: 90 },
+    { name: 'Creativity', score: 7.5, angle: 180 }
+  ];
+
+  function polarToXY(angleDeg, radius) {
+    const rad = (angleDeg * Math.PI) / 180;
+    return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+  }
+
+  // Grid rings
+  [0.25, 0.5, 0.75, 1.0].forEach(pct => {
+    const r = maxR * pct;
+    const points = categories.map(c => {
+      const p = polarToXY(c.angle, r);
+      return p.x + ',' + p.y;
+    }).join(' ');
+    const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    poly.setAttribute('points', points);
+    poly.setAttribute('class', 'radar-grid');
+    svg.appendChild(poly);
+  });
+
+  // Grid lines from center
+  categories.forEach(c => {
+    const p = polarToXY(c.angle, maxR);
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+    line.setAttribute('x2', p.x); line.setAttribute('y2', p.y);
+    line.setAttribute('class', 'radar-grid');
+    svg.appendChild(line);
+  });
+</script>
+<script>
+  // Data shape (continuing radar IIFE)
+  const radarSvg = document.getElementById('radarChart');
+  const cxR = 130, cyR = 130, maxRadius = 95;
+  const cats = [
+    { name: 'Design', score: 7.5, angle: -90 },
+    { name: 'Usability', score: 7.0, angle: 0 },
+    { name: 'Content', score: 7.0, angle: 90 },
+    { name: 'Creativity', score: 7.5, angle: 180 }
+  ];
+
+  function toXY(deg, r) {
+    const rad = (deg * Math.PI) / 180;
+    return { x: cxR + r * Math.cos(rad), y: cyR + r * Math.sin(rad) };
+  }
+
+  // Data polygon
+  const dataPoints = cats.map(c => {
+    const r = (c.score / 10) * maxRadius;
+    const p = toXY(c.angle, r);
+    return p.x + ',' + p.y;
+  }).join(' ');
+  const shape = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+  shape.setAttribute('points', dataPoints);
+  shape.setAttribute('class', 'radar-shape');
+  radarSvg.appendChild(shape);
+
+  // Data dots + labels
+  cats.forEach(c => {
+    const r = (c.score / 10) * maxRadius;
+    const p = toXY(c.angle, r);
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('cx', p.x); dot.setAttribute('cy', p.y);
+    dot.setAttribute('class', 'radar-dot');
+    dot.setAttribute('r', '4');
+    radarSvg.appendChild(dot);
+
+    // Label
+    const lp = toXY(c.angle, maxRadius + 20);
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', lp.x); text.setAttribute('y', lp.y);
+    text.setAttribute('text-anchor', 'middle'); text.setAttribute('dominant-baseline', 'middle');
+    text.setAttribute('class', 'radar-label');
+    text.textContent = c.name;
+    radarSvg.appendChild(text);
+  });
+})();
+</script>
+<script>
+// === ANIMATED COUNTERS ===
+function animateCounter(el, target, suffix) {
+  suffix = suffix || '';
+  const isFloat = String(target).includes('.');
+  const duration = 1500;
+  const start = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = eased * target;
+    el.textContent = isFloat ? current.toFixed(1) + suffix : Math.round(current) + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+// Trigger counters on load
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    animateCounter(document.getElementById('statProjects'), 2, '');
+    animateCounter(document.getElementById('statLive'), 2, '');
+    animateCounter(document.getElementById('statQuality'), 7.3, '');
+  }, 400);
+});
+</script>
+
+</body>
+</html>

@@ -57,6 +57,7 @@ An AI-powered website agency. Claude is the lead operator. When Sean drops a bri
 |---------|--------|----------|---------------|-------|
 | Trinh Media | LIVE | trinh-media-site.vercel.app | Git push to kimchiwrice/trinh-media-site | Agency portfolio site |
 | Paws & Co | LIVE | paws-and-co-eta.vercel.app | Vercel CLI | Pet shop — video hero, 4D parallax gallery, Three.js orbs |
+| Command Center | LIVE | command-center-five-lac.vercel.app | Vercel CLI | Jarvis-style ops dashboard — stats, pipeline, quality radar |
 
 When adding new projects: deploy first, then add a portfolio card to Trinh Media's index.html and push that repo too.
 
