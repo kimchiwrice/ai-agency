@@ -140,7 +140,106 @@ html { scroll-behavior: smooth; }
         }
         .sync-banner.show { opacity: 1; transform: translateY(0); }
         .sync-banner.error { border-color: rgba(245,101,114,0.5); color: #F56572; }
-        /* === END PRIORITY QUEUE === */
+
+        /* === TODAY'S FOCUS (operator's top-3 of the day) === */
+        .todays-focus {
+            margin: 0 0 26px 0;
+            padding: 24px 28px 22px 28px;
+            background:
+                linear-gradient(135deg, rgba(167,139,250,0.14), rgba(34,211,238,0.06)),
+                radial-gradient(circle at top left, rgba(244,114,182,0.08), transparent 60%);
+            border: 1px solid rgba(167,139,250,0.35);
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+        .todays-focus::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(167,139,250,0.15), transparent);
+            animation: tf-sweep 6s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes tf-sweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .tf-head {
+            display: flex; justify-content: space-between; align-items: baseline;
+            margin-bottom: 16px; position: relative;
+        }
+        .tf-label {
+            font-size: 0.72rem; font-weight: 800; letter-spacing: 3px;
+            text-transform: uppercase; color: #A78BFA;
+        }
+        .tf-label::before {
+            content: '◉'; margin-right: 8px; color: #F472B6;
+            animation: pq-pulse 1.6s ease-in-out infinite;
+        }
+        .tf-date {
+            font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+        }
+        .tf-list { display: flex; flex-direction: column; gap: 10px; position: relative; }
+        .tf-item {
+            display: grid;
+            grid-template-columns: 34px 1fr auto;
+            gap: 14px; align-items: center;
+            padding: 14px 16px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(167,139,250,0.2);
+            border-radius: 8px;
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
+        .tf-item:hover {
+            transform: translateX(4px);
+            border-color: rgba(167,139,250,0.55);
+            background: rgba(0,0,0,0.4);
+        }
+        .tf-rank {
+            font-size: 1.3rem; font-weight: 800;
+            color: #A78BFA;
+            text-align: center;
+            line-height: 1;
+            font-family: var(--mono);
+        }
+        .tf-body .tf-note {
+            font-size: 0.95rem; color: #fff; font-weight: 500;
+            line-height: 1.4; margin-bottom: 5px;
+        }
+        .tf-body .tf-project {
+            font-size: 0.68rem; letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+        }
+        .tf-priority {
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 5px 10px; border-radius: 3px;
+            white-space: nowrap;
+            background: rgba(245,68,85,0.18); color: #F56572;
+            border: 1px solid rgba(245,68,85,0.35);
+        }
+        .tf-empty {
+            text-align: center; padding: 28px 20px;
+            color: rgba(255,255,255,0.55); font-style: italic;
+        }
+        .tf-footer {
+            margin-top: 14px; padding-top: 12px;
+            border-top: 1px dashed rgba(255,255,255,0.08);
+            font-size: 0.7rem; letter-spacing: 0.5px;
+            color: rgba(255,255,255,0.45);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        /* Aging badge on PQ items */
+        .pq-age {
+            font-size: 0.6rem; font-weight: 600;
+            letter-spacing: 1px; text-transform: uppercase;
+            padding: 2px 7px; border-radius: 3px;
+            margin-left: 8px;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.55);
+        }
+        .pq-age.warn { color: #F5B544; border-color: rgba(245,181,68,0.4); background: rgba(245,181,68,0.08); }
+        .pq-age.danger { color: #F56572; border-color: rgba(245,101,114,0.45); background: rgba(245,101,114,0.08); }
+        /* === END TODAY'S FOCUS === */
 
     </style>
 </head>
@@ -205,22 +304,82 @@ html { scroll-behavior: smooth; }
             const allIssues = projects.flatMap(p => (p.issues || [])
                 .filter(i => !i.resolved)
                 .map(i => ({ ...i, projectName: p.name, projectId: p.id, projectUrl: p.url })));
-            allIssues.sort((a,b) => (weight[b.priority]*((b.impact||1)) ) - (weight[a.priority]*((a.impact||1))) );
+            // Sort: priority×impact DESC, then oldest added first (older issues bubble up), then lowest project score first (weak sites get attention)
+            const projScore = {};
+            projects.forEach(p => projScore[p.id] = Number(p.score) || 0);
+            allIssues.sort((a,b) => {
+                const sa = (weight[a.priority]||0) * (a.impact||1);
+                const sb = (weight[b.priority]||0) * (b.impact||1);
+                if (sb !== sa) return sb - sa;
+                const da = a.added ? new Date(a.added).getTime() : 0;
+                const db = b.added ? new Date(b.added).getTime() : 0;
+                if (da !== db) return da - db; // older first
+                return (projScore[a.projectId]||99) - (projScore[b.projectId]||99);
+            });
+            // Compute aging info for each issue
+            const now = Date.now();
+            function ageInfo(iso) {
+                if (!iso) return { days: 0, label: '', cls: '' };
+                const days = Math.floor((now - new Date(iso).getTime()) / 86400000);
+                if (days < 7) return { days, label: days === 0 ? 'today' : days + 'd', cls: '' };
+                if (days < 14) return { days, label: Math.round(days/7) + 'w', cls: '' };
+                if (days < 30) return { days, label: Math.round(days/7) + 'w', cls: 'warn' };
+                return { days, label: Math.round(days/30) + 'mo', cls: 'danger' };
+            }
+
             const top = allIssues.slice(0, 6);
             if (pqList) {
                 if (!top.length) {
                     pqList.innerHTML = '<div class="pq-empty">No open issues. Ready for next build.</div>';
                 } else {
-                    pqList.innerHTML = top.map(i => `
+                    pqList.innerHTML = top.map(i => {
+                        const a = ageInfo(i.added);
+                        return `
                         <div class="pq-item">
                             <span class="pq-priority ${i.priority}">${i.priority}</span>
-                            <span class="pq-note">${escapeHtml(i.note)}</span>
+                            <span class="pq-note">${escapeHtml(i.note)}${a.label ? '<span class="pq-age ' + a.cls + '">' + a.label + '</span>' : ''}</span>
                             <span class="pq-project" title="${escapeHtml(i.projectUrl)}">${escapeHtml(i.projectName)}</span>
                         </div>
-                    `).join('');
+                    `;}).join('');
                 }
             }
             if (pqCount) pqCount.textContent = allIssues.length + ' open · showing top ' + top.length;
+
+            // --- Render Today's Focus: top 3, visually dominant ---
+            const tfList = document.getElementById('tfList');
+            const tfDate = document.getElementById('tfDate');
+            const tfFooter = document.getElementById('tfFooter');
+            const focus3 = allIssues.slice(0, 3);
+            if (tfDate) {
+                const d = new Date();
+                tfDate.textContent = d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+            }
+            if (tfList) {
+                if (!focus3.length) {
+                    tfList.innerHTML = '<div class="tf-empty">✓ Nothing blocking you today. Time to ship something new.</div>';
+                } else {
+                    tfList.innerHTML = focus3.map((i, idx) => `
+                        <a href="${escapeHtml(i.projectUrl)}" target="_blank" rel="noopener" class="tf-item">
+                            <div class="tf-rank">0${idx+1}</div>
+                            <div class="tf-body">
+                                <div class="tf-note">${escapeHtml(i.note)}</div>
+                                <div class="tf-project">${escapeHtml(i.projectName)} · impact ${i.impact || 1}</div>
+                            </div>
+                            <div class="tf-priority">${i.priority}</div>
+                        </a>
+                    `).join('');
+                }
+            }
+            if (tfFooter) {
+                const total = allIssues.length;
+                const aging = allIssues.filter(i => {
+                    if (!i.added) return false;
+                    return (now - new Date(i.added).getTime()) / 86400000 > 14;
+                }).length;
+                const highCount = allIssues.filter(i => i.priority === 'high').length;
+                tfFooter.innerHTML = `<span><strong>${highCount}</strong> high-priority · <strong>${total}</strong> open total</span>` +
+                    (aging ? `<span style="color:#F5B544;">⚠ ${aging} aging &gt; 14d</span>` : `<span style="color:rgba(52,211,153,0.8);">◉ queue fresh</span>`);
+            }
 
             // --- Update footer deployed count ---
             document.querySelectorAll('footer, .footer, [class*=footer]').forEach(f => {
@@ -614,6 +773,18 @@ body::after {
           <div class="pipeline-stage-label">growing</div>
         </div>
       </div>
+    </div>
+
+    <!-- === TODAY'S FOCUS CARD === -->
+    <div class="todays-focus reveal" id="todaysFocus">
+        <div class="tf-head">
+            <div class="tf-label">Today's Focus</div>
+            <div class="tf-date" id="tfDate"></div>
+        </div>
+        <div class="tf-list" id="tfList">
+            <div class="tf-empty">Loading operator queue…</div>
+        </div>
+        <div class="tf-footer" id="tfFooter"></div>
     </div>
 
     <!-- Two-column grid -->
