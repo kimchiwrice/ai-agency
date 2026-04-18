@@ -1,0 +1,72 @@
+name: AI Agency — Validate Output
+
+on:
+  push:
+    paths:
+      - 'output/**/index.html'
+      - 'tests/**'
+      - 'package.json'
+      - '.github/workflows/validate-output.yml'
+  pull_request:
+    paths:
+      - 'output/**/index.html'
+      - 'tests/**'
+      - 'package.json'
+  workflow_dispatch:
+    inputs:
+      heal:
+        description: 'Attempt self-heal on Tier-1 failures'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+
+      - name: Run validators
+        id: validate
+        run: npm test
+        continue-on-error: ${{ github.event.inputs.heal == 'true' }}
+
+      - name: Self-heal on failure
+        if: steps.validate.outcome == 'failure' && github.event.inputs.heal == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npm run heal
+
+      - name: Re-validate after heal
+        if: steps.validate.outcome == 'failure' && github.event.inputs.heal == 'true'
+        run: npm test
+
+      - name: Commit healed output
+        if: steps.validate.outcome == 'failure' && github.event.inputs.heal == 'true' && github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "AI Agency Bot"
+          git config user.email "ai-agency@trinh.media"
+          git add output/
+          if ! git diff --staged --quiet; then
+            git commit -m "heal: auto-patch Tier-1 validator failures"
+            git push
+          fi
+
+      - name: Upload quality reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-reports
+          path: output/**/.quality.json
+          if-no-files-found: ignore

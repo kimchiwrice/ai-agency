@@ -1,0 +1,145 @@
+{
+  "project": "command-center",
+  "timestamp": "2026-04-18T22:48:57.568Z",
+  "passed": false,
+  "shipBlocked": true,
+  "totals": {
+    "errors": 7,
+    "warnings": 4,
+    "validators": 5,
+    "validatorsPassed": 2
+  },
+  "reports": [
+    {
+      "name": "html-validate",
+      "tier": 1,
+      "description": "W3C-style HTML validity — duplicate IDs, bad nesting, missing required attrs.",
+      "passed": false,
+      "errors": [
+        {
+          "code": "close-order",
+          "message": "Stray end tag '</body>'",
+          "line": 1145,
+          "column": 2,
+          "selector": null
+        },
+        {
+          "code": "close-order",
+          "message": "Stray end tag '</html>'",
+          "line": 1146,
+          "column": 2,
+          "selector": null
+        }
+      ],
+      "warnings": [],
+      "stats": {
+        "errorCount": 2,
+        "warningCount": 0
+      },
+      "durationMs": 179
+    },
+    {
+      "name": "seo-meta",
+      "tier": 1,
+      "description": "Required SEO + social meta tags for production sites.",
+      "passed": false,
+      "errors": [
+        {
+          "code": "missing-required-meta",
+          "message": "canonical link is missing",
+          "selector": "link[rel=\"canonical\"]"
+        },
+        {
+          "code": "missing-required-meta",
+          "message": "Open Graph image is missing",
+          "selector": "meta[property=\"og:image\"]"
+        },
+        {
+          "code": "missing-required-meta",
+          "message": "Twitter card meta is missing",
+          "selector": "meta[name=\"twitter:card\"]"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "missing-recommended-meta",
+          "message": "JSON-LD structured data is missing",
+          "selector": "script[type=\"application/ld+json\"]"
+        },
+        {
+          "code": "missing-recommended-meta",
+          "message": "Open Graph URL is missing",
+          "selector": "meta[property=\"og:url\"]"
+        },
+        {
+          "code": "missing-recommended-meta",
+          "message": "Open Graph type is missing",
+          "selector": "meta[property=\"og:type\"]"
+        },
+        {
+          "code": "description-length",
+          "message": "meta description length 46 is outside recommended 50-170 chars"
+        }
+      ],
+      "stats": {
+        "errorCount": 3,
+        "warningCount": 4,
+        "titleLength": 28,
+        "descriptionLength": 46
+      },
+      "durationMs": 6
+    },
+    {
+      "name": "assets",
+      "tier": 1,
+      "description": "Images have alt/width/height; videos have autoplay/muted/loop/playsinline + poster.",
+      "passed": true,
+      "errors": [],
+      "warnings": [],
+      "stats": {
+        "images": 0,
+        "videos": 0,
+        "imagesMissingAlt": 0,
+        "imagesMissingDims": 0
+      },
+      "durationMs": 1
+    },
+    {
+      "name": "structure",
+      "tier": 1,
+      "description": "Required page structure — nav, footer, exactly one <h1>, no lorem ipsum, no unfilled placeholders.",
+      "passed": false,
+      "errors": [
+        {
+          "code": "missing-nav",
+          "message": "<nav> element is missing"
+        },
+        {
+          "code": "no-h1",
+          "message": "Page has no <h1> — required for SEO and a11y outline"
+        }
+      ],
+      "warnings": [],
+      "stats": {
+        "h1Count": 0,
+        "hasNav": false,
+        "hasFooter": true,
+        "hasMain": true
+      },
+      "durationMs": 3
+    },
+    {
+      "name": "links",
+      "tier": 2,
+      "description": "Broken internal anchors, dead href/src targets. External HTTP checks opt-in via CHECK_EXTERNAL=1.",
+      "passed": true,
+      "errors": [],
+      "warnings": [],
+      "stats": {
+        "anchorsChecked": 0,
+        "externalChecked": false
+      },
+      "durationMs": 2
+    }
+  ]
+}

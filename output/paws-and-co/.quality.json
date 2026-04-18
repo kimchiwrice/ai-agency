@@ -1,0 +1,175 @@
+{
+  "project": "paws-and-co",
+  "timestamp": "2026-04-18T22:48:57.670Z",
+  "passed": false,
+  "shipBlocked": true,
+  "totals": {
+    "errors": 2,
+    "warnings": 18,
+    "validators": 5,
+    "validatorsPassed": 4
+  },
+  "reports": [
+    {
+      "name": "html-validate",
+      "tier": 1,
+      "description": "W3C-style HTML validity — duplicate IDs, bad nesting, missing required attrs.",
+      "passed": true,
+      "errors": [],
+      "warnings": [],
+      "stats": {
+        "errorCount": 0,
+        "warningCount": 0
+      },
+      "durationMs": 45
+    },
+    {
+      "name": "seo-meta",
+      "tier": 1,
+      "description": "Required SEO + social meta tags for production sites.",
+      "passed": false,
+      "errors": [
+        {
+          "code": "missing-required-meta",
+          "message": "canonical link is missing",
+          "selector": "link[rel=\"canonical\"]"
+        },
+        {
+          "code": "missing-required-meta",
+          "message": "Twitter card meta is missing",
+          "selector": "meta[name=\"twitter:card\"]"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "missing-recommended-meta",
+          "message": "favicon link is missing",
+          "selector": "link[rel~=\"icon\"]"
+        },
+        {
+          "code": "missing-recommended-meta",
+          "message": "JSON-LD structured data is missing",
+          "selector": "script[type=\"application/ld+json\"]"
+        },
+        {
+          "code": "missing-recommended-meta",
+          "message": "Open Graph URL is missing",
+          "selector": "meta[property=\"og:url\"]"
+        }
+      ],
+      "stats": {
+        "errorCount": 2,
+        "warningCount": 3,
+        "titleLength": 55,
+        "descriptionLength": 149
+      },
+      "durationMs": 3
+    },
+    {
+      "name": "assets",
+      "tier": 1,
+      "description": "Images have alt/width/height; videos have autoplay/muted/loop/playsinline + poster.",
+      "passed": true,
+      "errors": [],
+      "warnings": [
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=400&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1601758174114-e711c0cbaa69?w=400&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=400&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1544568100-847a948585b9?w=400&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=900&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=500&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=500&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=500&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1560807707-8cc77767d783?w=500&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1587764379873-97837921fd44?w=500&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1574158622682-e40e69881006?w=500&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?w=500&q=80\"> is missing width/height — causes layout shift (CLS)"
+        },
+        {
+          "code": "img-missing-dims",
+          "message": "<img src=\"https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=800&q=80\"> is missing width/height — causes layout shift (CLS)"
+        }
+      ],
+      "stats": {
+        "images": 13,
+        "videos": 1,
+        "imagesMissingAlt": 0,
+        "imagesMissingDims": 13
+      },
+      "durationMs": 1
+    },
+    {
+      "name": "structure",
+      "tier": 1,
+      "description": "Required page structure — nav, footer, exactly one <h1>, no lorem ipsum, no unfilled placeholders.",
+      "passed": true,
+      "errors": [],
+      "warnings": [
+        {
+          "code": "missing-main",
+          "message": "<main> landmark missing (a11y)"
+        }
+      ],
+      "stats": {
+        "h1Count": 1,
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "durationMs": 0
+    },
+    {
+      "name": "links",
+      "tier": 2,
+      "description": "Broken internal anchors, dead href/src targets. External HTTP checks opt-in via CHECK_EXTERNAL=1.",
+      "passed": true,
+      "errors": [],
+      "warnings": [
+        {
+          "code": "empty-anchor",
+          "message": "<a> has placeholder href=\"#\""
+        }
+      ],
+      "stats": {
+        "anchorsChecked": 13,
+        "externalChecked": false
+      },
+      "durationMs": 2
+    }
+  ]
+}

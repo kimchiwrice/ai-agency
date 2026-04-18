@@ -1,0 +1,126 @@
+{
+  "project": "trinh-media",
+  "timestamp": "2026-04-18T22:48:57.739Z",
+  "passed": false,
+  "shipBlocked": true,
+  "totals": {
+    "errors": 3,
+    "warnings": 5,
+    "validators": 5,
+    "validatorsPassed": 4
+  },
+  "reports": [
+    {
+      "name": "html-validate",
+      "tier": 1,
+      "description": "W3C-style HTML validity — duplicate IDs, bad nesting, missing required attrs.",
+      "passed": true,
+      "errors": [],
+      "warnings": [],
+      "stats": {
+        "errorCount": 0,
+        "warningCount": 0
+      },
+      "durationMs": 36
+    },
+    {
+      "name": "seo-meta",
+      "tier": 1,
+      "description": "Required SEO + social meta tags for production sites.",
+      "passed": false,
+      "errors": [
+        {
+          "code": "missing-required-meta",
+          "message": "canonical link is missing",
+          "selector": "link[rel=\"canonical\"]"
+        },
+        {
+          "code": "missing-required-meta",
+          "message": "Open Graph image is missing",
+          "selector": "meta[property=\"og:image\"]"
+        },
+        {
+          "code": "missing-required-meta",
+          "message": "Twitter card meta is missing",
+          "selector": "meta[name=\"twitter:card\"]"
+        }
+      ],
+      "warnings": [
+        {
+          "code": "missing-recommended-meta",
+          "message": "favicon link is missing",
+          "selector": "link[rel~=\"icon\"]"
+        },
+        {
+          "code": "missing-recommended-meta",
+          "message": "JSON-LD structured data is missing",
+          "selector": "script[type=\"application/ld+json\"]"
+        }
+      ],
+      "stats": {
+        "errorCount": 3,
+        "warningCount": 2,
+        "titleLength": 61,
+        "descriptionLength": 142
+      },
+      "durationMs": 1
+    },
+    {
+      "name": "assets",
+      "tier": 1,
+      "description": "Images have alt/width/height; videos have autoplay/muted/loop/playsinline + poster.",
+      "passed": true,
+      "errors": [],
+      "warnings": [],
+      "stats": {
+        "images": 0,
+        "videos": 0,
+        "imagesMissingAlt": 0,
+        "imagesMissingDims": 0
+      },
+      "durationMs": 1
+    },
+    {
+      "name": "structure",
+      "tier": 1,
+      "description": "Required page structure — nav, footer, exactly one <h1>, no lorem ipsum, no unfilled placeholders.",
+      "passed": true,
+      "errors": [],
+      "warnings": [
+        {
+          "code": "missing-main",
+          "message": "<main> landmark missing (a11y)"
+        }
+      ],
+      "stats": {
+        "h1Count": 1,
+        "hasNav": true,
+        "hasFooter": true,
+        "hasMain": false
+      },
+      "durationMs": 0
+    },
+    {
+      "name": "links",
+      "tier": 2,
+      "description": "Broken internal anchors, dead href/src targets. External HTTP checks opt-in via CHECK_EXTERNAL=1.",
+      "passed": true,
+      "errors": [],
+      "warnings": [
+        {
+          "code": "empty-anchor",
+          "message": "<a> has placeholder href=\"#\""
+        },
+        {
+          "code": "empty-anchor",
+          "message": "<a> has placeholder href=\"#\""
+        }
+      ],
+      "stats": {
+        "anchorsChecked": 13,
+        "externalChecked": false
+      },
+      "durationMs": 1
+    }
+  ]
+}

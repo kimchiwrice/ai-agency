@@ -165,6 +165,39 @@ ai-agency/
 - Clean up any Node.js helper scripts after use (deploy scripts, git scripts, etc.)
 - After every project: update the Project Registry table above
 
+## Automated Validation (run before every deploy)
+
+Every generated site is gated by `npm test` before it ships.
+
+| Tier | Validators | Behavior |
+|------|-----------|----------|
+| 1 (ship-blocker) | html-validate, seo-meta, assets, structure | Fails `npm test` + CI |
+| 2 (quality) | links (internal anchors) | Reported, non-blocking |
+
+Per-project scorecards land in `output/<project>/.quality.json`. Full docs: `tests/README.md`.
+
+### Commands
+```bash
+npm install
+npm test                                 # validate all output/
+npm run test:project paws-and-co         # single project
+npm run heal                             # Claude auto-patches Tier-1 failures
+MAX_ITER=5 npm run heal:project paws-and-co
+```
+
+### Self-heal loop
+When Tier-1 validators fail, `tests/self-heal.mjs` sends the HTML + failure list to Claude, writes the patched file (with safety backups in `tests/.heal-backups/`), and re-runs validators. Iteration cap defaults to 3.
+
+### CI gate
+`.github/workflows/validate-output.yml` runs on every push that touches `output/` or `tests/`. Dispatch manually with `heal=true` to auto-patch and commit.
+
+### Adding a validator
+1. Create `tests/validators/<name>.mjs` with `{ default, meta }` exports
+2. Register it in the `VALIDATORS` array in both `tests/runner.mjs` and `tests/self-heal.mjs`
+3. Pick the tier honestly — Tier 1 is for things that should genuinely block a ship
+
+Roadmap (Tier 2/3 — see `tests/README.md`): accessibility (axe), Lighthouse, responsive smoke, visual regression, asset-health HEAD checks, post-deploy smoke tests.
+
 ## Quality System (READ BEFORE EVERY BUILD)
 
 ### Reference Document

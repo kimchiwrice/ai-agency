@@ -1,0 +1,23 @@
+{
+  "name": "ai-agency",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Trinh Media — AI-powered website agency. Test harness validates every generated site before deploy.",
+  "scripts": {
+    "test": "node tests/runner.mjs",
+    "test:project": "node tests/runner.mjs --project",
+    "test:json": "node tests/runner.mjs --json",
+    "heal": "node tests/self-heal.mjs",
+    "heal:project": "node tests/self-heal.mjs --project"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.30.1",
+    "html-validate": "^8.18.2",
+    "jsdom": "^24.0.0",
+    "linkinator": "^6.0.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
