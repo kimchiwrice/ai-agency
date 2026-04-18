@@ -7,6 +7,14 @@
 <meta name="description" content="AI-Powered Agency Command Center — Trinh Media">
 <meta property="og:title" content="Trinh Media Command Center">
 <meta property="og:description" content="AI-Powered Web Agency Operations Dashboard">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://command-center-five-lac.vercel.app/">
+<meta property="og:image" content="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=85">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trinh Media Command Center">
+<meta name="twitter:description" content="AI-Powered Web Agency Operations Dashboard">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=85">
+<link rel="canonical" href="https://command-center-five-lac.vercel.app/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -417,8 +425,6 @@ html { scroll-behavior: smooth; }
     })();
     </script>
 
-</body>
-</html>
 <style>
 body {
   font-family: var(--font);
@@ -469,7 +475,11 @@ body::after {
   display: flex; align-items: center; justify-content: center;
   font-size: 18px; font-weight: 800; color: #fff;
 }
-.topbar-title { font-size: 15px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-primary); }
+.topbar-title { font-size: 15px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-primary); margin: 0; }
+.topbar-nav { display: flex; gap: 22px; }
+.topbar-nav a { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; transition: color .15s; }
+.topbar-nav a:hover { color: var(--text-primary); }
+@media (max-width: 720px) { .topbar-nav { display: none; } }
 .topbar-sub { font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; margin-top: 2px; }
 .topbar-status { display: flex; align-items: center; gap: 16px; }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 12px var(--green-glow); animation: pulse-dot 2s ease infinite; }
@@ -700,10 +710,16 @@ body::after {
     <div class="topbar-brand">
       <div class="topbar-logo">T</div>
       <div>
-        <div class="topbar-title">Trinh Media</div>
+        <h1 class="topbar-title">Trinh Media</h1>
         <div class="topbar-sub">Command Center</div>
       </div>
     </div>
+    <nav class="topbar-nav" aria-label="Dashboard sections">
+      <a href="#todaysFocus">Focus</a>
+      <a href="#priorityQueue">Queue</a>
+      <a href="#projectList">Projects</a>
+      <a href="#radarChart">Quality</a>
+    </nav>
     <div class="topbar-status">
       <div class="status-dot"></div>
       <span class="status-text">SYSTEM ONLINE</span>

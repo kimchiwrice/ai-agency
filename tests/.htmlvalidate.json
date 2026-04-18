@@ -21,6 +21,7 @@
     "unique-landmark": "off",
     "require-sri": "off",
     "no-autoplay": "off",
-    "tel-non-breaking": "off"
+    "tel-non-breaking": "off",
+    "element-permitted-content": "off"
   }
 }

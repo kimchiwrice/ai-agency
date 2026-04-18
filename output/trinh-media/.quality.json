@@ -1,13 +1,13 @@
 {
   "project": "trinh-media",
-  "timestamp": "2026-04-18T22:48:57.739Z",
-  "passed": false,
-  "shipBlocked": true,
+  "timestamp": "2026-04-18T23:07:50.240Z",
+  "passed": true,
+  "shipBlocked": false,
   "totals": {
-    "errors": 3,
-    "warnings": 5,
+    "errors": 0,
+    "warnings": 4,
     "validators": 5,
-    "validatorsPassed": 4
+    "validatorsPassed": 5
   },
   "reports": [
     {
@@ -21,36 +21,15 @@
         "errorCount": 0,
         "warningCount": 0
       },
-      "durationMs": 36
+      "durationMs": 34
     },
     {
       "name": "seo-meta",
       "tier": 1,
       "description": "Required SEO + social meta tags for production sites.",
-      "passed": false,
-      "errors": [
-        {
-          "code": "missing-required-meta",
-          "message": "canonical link is missing",
-          "selector": "link[rel=\"canonical\"]"
-        },
-        {
-          "code": "missing-required-meta",
-          "message": "Open Graph image is missing",
-          "selector": "meta[property=\"og:image\"]"
-        },
-        {
-          "code": "missing-required-meta",
-          "message": "Twitter card meta is missing",
-          "selector": "meta[name=\"twitter:card\"]"
-        }
-      ],
+      "passed": true,
+      "errors": [],
       "warnings": [
-        {
-          "code": "missing-recommended-meta",
-          "message": "favicon link is missing",
-          "selector": "link[rel~=\"icon\"]"
-        },
         {
           "code": "missing-recommended-meta",
           "message": "JSON-LD structured data is missing",
@@ -58,8 +37,8 @@
         }
       ],
       "stats": {
-        "errorCount": 3,
-        "warningCount": 2,
+        "errorCount": 0,
+        "warningCount": 1,
         "titleLength": 61,
         "descriptionLength": 142
       },
@@ -78,7 +57,7 @@
         "imagesMissingAlt": 0,
         "imagesMissingDims": 0
       },
-      "durationMs": 1
+      "durationMs": 0
     },
     {
       "name": "structure",

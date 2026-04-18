@@ -1,13 +1,13 @@
 {
   "project": "paws-and-co",
-  "timestamp": "2026-04-18T22:48:57.670Z",
-  "passed": false,
-  "shipBlocked": true,
+  "timestamp": "2026-04-18T23:07:50.175Z",
+  "passed": true,
+  "shipBlocked": false,
   "totals": {
-    "errors": 2,
-    "warnings": 18,
+    "errors": 0,
+    "warnings": 16,
     "validators": 5,
-    "validatorsPassed": 4
+    "validatorsPassed": 5
   },
   "reports": [
     {
@@ -21,45 +21,24 @@
         "errorCount": 0,
         "warningCount": 0
       },
-      "durationMs": 45
+      "durationMs": 47
     },
     {
       "name": "seo-meta",
       "tier": 1,
       "description": "Required SEO + social meta tags for production sites.",
-      "passed": false,
-      "errors": [
-        {
-          "code": "missing-required-meta",
-          "message": "canonical link is missing",
-          "selector": "link[rel=\"canonical\"]"
-        },
-        {
-          "code": "missing-required-meta",
-          "message": "Twitter card meta is missing",
-          "selector": "meta[name=\"twitter:card\"]"
-        }
-      ],
+      "passed": true,
+      "errors": [],
       "warnings": [
-        {
-          "code": "missing-recommended-meta",
-          "message": "favicon link is missing",
-          "selector": "link[rel~=\"icon\"]"
-        },
         {
           "code": "missing-recommended-meta",
           "message": "JSON-LD structured data is missing",
           "selector": "script[type=\"application/ld+json\"]"
-        },
-        {
-          "code": "missing-recommended-meta",
-          "message": "Open Graph URL is missing",
-          "selector": "meta[property=\"og:url\"]"
         }
       ],
       "stats": {
-        "errorCount": 2,
-        "warningCount": 3,
+        "errorCount": 0,
+        "warningCount": 1,
         "titleLength": 55,
         "descriptionLength": 149
       },
@@ -131,7 +110,7 @@
         "imagesMissingAlt": 0,
         "imagesMissingDims": 13
       },
-      "durationMs": 1
+      "durationMs": 0
     },
     {
       "name": "structure",
@@ -151,7 +130,7 @@
         "hasFooter": true,
         "hasMain": false
       },
-      "durationMs": 0
+      "durationMs": 1
     },
     {
       "name": "links",
@@ -169,7 +148,7 @@
         "anchorsChecked": 13,
         "externalChecked": false
       },
-      "durationMs": 2
+      "durationMs": 1
     }
   ]
 }
